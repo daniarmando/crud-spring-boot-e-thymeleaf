@@ -1,0 +1,22 @@
+.autor {	
+	margin-right: 20px;	
+	font-size: 1.2em;
+	color: #FFF;
+}
+
+.cabecalho h1 {
+	margin: 0;
+	font-size: 3em;
+}
+
+.dados-produtos {
+	margin-top: 30px;
+}
+
+.formulario {
+	margin-top: 30px;
+}
+
+.mensagem {
+	margin-top: 30px;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"	>
+<head>
+	<meta charset="utf-8">
+	<meta charset="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Crud Spring Boot e Thymeleaf</title>
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">	
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="autor">CRUD Spring Boot + Thymeleaf - Daniel Armando</h1>									
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="menu">
+				<ul class="nav navbar-nav">
+					<li><a href="/produtos">Consultar Produtos</a></li>
+					<li><a href="/produtos/novo">Cadastrar Produto</a></li>					
+				</ul>				
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><a href="/produtos" class="active">Produtos</a></li>			
+		</ol>	
+
+		<div class="row cabecalho">
+			<div class="col-xs-12">
+				<h1>Produtos</h1>
+			</div>			
+		</div>
+		
+		<div class="alert  alert-danger  alert-dismissible  mensagem" role="alert" th:if="${not #strings.isEmpty(mensagem)}" th:fragment="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>			
+			<span th:text="${mensagem}"></span>			
+		</div>
+
+		<div class="table-responsive" th:switch="${produtos}">			
+			<table class="dados-produtos table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Código</th>
+						<th>Nome</th>
+						<th>Categoria</th>
+						<th>Descrição</th>						
+						<th></th>
+					</tr>
+				</thead>
+				<tbody th:if="${#lists.isEmpty(produtos)}">
+					<tr>
+						<td colspan="5">Não há produtos cadastrados</td>
+					</tr>
+				</tbody>
+				<tbody th:if="${not #lists.isEmpty(produtos)}">
+					<tr th:each="produto : ${produtos}">
+						<td th:text="${produto.codigo}"></td>
+	                    <td th:text="${produto.nome}"></td>
+	                    <td th:text="${produto.categoria.descricao}"></td>
+	                    <td th:text="${produto.descricao}"></td>	                    	                   
+	                    <td class="text-center">							
+							<a th:href="@{/produtos/editar/{codigo}(codigo=${produto.codigo})}" data-toggle="tooltip" title="Editar"><span class="glyphicon glyphicon-pencil text-warning"></span></a>
+							<a th:href="@{/produtos/excluir/{codigo}(codigo=${produto.codigo})}" data-toggle="tooltip" title="Excluir"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+						</td>
+		                </tr>					
+				</tbody>
+			</table>			
+		</div>
+
+		<footer>			
+			<a class="btn btn-primary" href="/produtos/novo">Novo Produto</a>
+		</footer>
+	</div>
+
+<script th:src="@{/js/jquery-2.2.4.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

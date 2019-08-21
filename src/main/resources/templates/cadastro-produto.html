@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"	>
+<head>
+<head>
+	<meta charset="utf-8">
+	<meta charset="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Crud Spring Boot e Thymeleaf</title>
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">	
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="autor">CRUD Spring Boot + Thymeleaf - Daniel Armando</h1>									
+			</div>
+			<div class="collapse navbar-collapse" id="menu">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/produtos">Consultar Produtos</a></li>
+					<li><a href="/produtos/novo">Cadastrar Produto</a></li>					
+				</ul>				
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><a href="/produtos">Produtos</a></li>
+			<li><a href="/produtos/novo" class="active">Cadastro</a></li>			
+		</ol>	
+
+		<div class="row cabecalho">
+			<div class="col-xs-12">
+				<h1>Cadastrar produto</h1>
+			</div>			
+		</div>		
+		
+		<div class="alert  alert-success  alert-dismissible  mensagem" role="alert" th:if="${not #strings.isEmpty(mensagem)}" th:fragment="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>			
+			<span th:text="${mensagem}"></span>			
+		</div>		
+
+		<form class="formulario" action="#" th:action="@{/produtos/novo}" th:object="${produto}" method="POST">
+			<div class="row">
+				<div class="form-group col-sm-8" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+					<label for="nome" class="control-label">Nome</label>
+					<input type="text" th:field="*{nome}" id="nome" class="form-control">
+					<span class="text-danger"  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>					
+				</div>
+
+				<div class="form-group col-sm-4" th:classappend="${#fields.hasErrors('categoria')} ? has-error">
+					<label for="categoria" id="control-label">Categoria</label>
+					<select th:field="*{categoria}" name="categoria" id="categoria" class="form-control">
+						<option value="">Selecione...</option>
+						<option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria.descricao}"></option>
+					</select>
+					<span class="text-danger" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></span>
+				</div>
+			</div>
+
+			<div class="form-group" th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+				<label for="descricao" class="control-label">Descrição</label>
+				<textarea th:field="*{descricao}" name="descricao" id="descricao" class="form-control" rows="3"></textarea>
+				<span class="text-danger"  th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
+			</div>
+
+			<button type="reset" class="btn btn-danger">Limpar</button>
+			<button type="submit" class="btn btn-primary">Salvar</button>			
+		</form>				
+	</div>
+
+<script th:src="@{/js/jquery-2.2.4.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
